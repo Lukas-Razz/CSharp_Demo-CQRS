@@ -1,5 +1,7 @@
-﻿using Demo.CQRS.BL.Commands.EnrollToCourse;
-using Demo.CQRS.BL.Queries;
+﻿using Demo.CQRS.BL.Commands.CancelEnrollment;
+using Demo.CQRS.BL.Commands.EnrollToCourse;
+using Demo.CQRS.BL.Queries.GetCourses;
+using Demo.CQRS.BL.Queries.GetEnrollments;
 using Demo.CQRS.Domain;
 using MediatR;
 using Optional;
@@ -36,6 +38,24 @@ namespace Demo.CQRS.BL.Facade
                 ContactEmail = email
             };
             return _mediator.Send(command);
+        }
+
+        public Task CancelEnroll(Enrollment enrollment)
+        {
+            var command = new CancelEnrollmentCommand
+            {
+                Enrollment = enrollment
+            };
+            return _mediator.Send(command);
+        }
+
+        public Task<IEnumerable<Enrollment>> GetPendingEnrollements(Guid userId)
+        {
+            var query = new GetEnrollemntsQuery
+            {
+                UserId = userId
+            };
+            return _mediator.Send(query);
         }
     }
 }

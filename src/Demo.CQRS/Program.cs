@@ -1,25 +1,56 @@
-﻿using Demo.CQRS.BL.Facade;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Demo.CQRS;
-using Demo.CQRS.DAL.Course;
-using System;
-using Demo.CQRS.DAL.Enrollment;
+using Optional;
+using MediatR;
+using Demo.CQRS.BL.Queries.GetCourses;
+using Demo.CQRS.BL.Facade;
 
 // Dependency Injection
 // Call GetService<> if you want to get something
 using var dependencies = new Dependencies();
 var serviceProvider = dependencies.ServiceProvider;
 
-var facade = serviceProvider.GetService<ICoursesFacade>();
-var courses = await facade.GetOpenCoursesIn("Newport");
-foreach(var course in courses)
+// Try your implementation here
+
+// Without facade
+var query = new GetCoursesQuery
+{
+    After = DateTime.UtcNow.Some(),
+    AtLocation = "Brno".Some(),
+};
+var courses = await serviceProvider.GetService<IMediator>().Send(query);
+foreach (var course in courses)
 {
     Console.WriteLine($"{course.Name}");
 }
+
+// With Facade
 var userId = Guid.NewGuid();
+var facade = serviceProvider.GetService<ICoursesFacade>();
 
-await facade.Enroll(courses.First(), userId, "user@example.test");
+// Get Courses
+var courses2 = await facade.GetOpenCoursesIn("Newport");
+foreach (var course in courses2)
+{
+    Console.WriteLine($"{course.Id}:{course.Name}");
+}
 
-using var context = serviceProvider.GetService<Func<EnrollmentContext>>().Invoke();
-context.CourseEnrollments.First();
-Console.WriteLine($"Enrollement: {context.CourseEnrollments.First().Id}");
+// Enroll 
+await facade.Enroll(courses2.First(), userId, "user@example.test");
+
+// Get Enrolls
+var enrollments = await facade.GetPendingEnrollements(userId);
+foreach (var enrollment in enrollments)
+{
+    Console.WriteLine($"{enrollment.Course.Id}");
+}
+
+// Cancel 
+await facade.CancelEnroll(enrollments.First());
+
+// Get Enrolls
+var enrollments2 = await facade.GetPendingEnrollements(userId);
+foreach (var enrollment in enrollments2)
+{
+    Console.WriteLine($"{enrollment.Course.Id}");
+}

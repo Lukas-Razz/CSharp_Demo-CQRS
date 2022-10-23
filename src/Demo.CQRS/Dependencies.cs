@@ -2,7 +2,6 @@
 using Demo.CQRS.BL.Commands.EnrollToCourse;
 using Demo.CQRS.BL.Contracts;
 using Demo.CQRS.BL.Facade;
-using Demo.CQRS.BL.Queries;
 using Demo.CQRS.DAL.Course;
 using Demo.CQRS.DAL.Enrollment;
 using Demo.CQRS.Infrastructure;
@@ -10,12 +9,11 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Demo.CQRS
 {
+    // This sets up the appliation
     internal class Dependencies : IDisposable
     {
         private ServiceProvider _serviceProvider;

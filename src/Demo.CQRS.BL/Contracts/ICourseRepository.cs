@@ -4,6 +4,6 @@ namespace Demo.CQRS.BL.Contracts
 {
     public interface ICourseRepository
     {
-        Task<IEnumerable<Course>> GetAll();
+        Task<IEnumerable<Course>> GetAllAsync();
     }
 }

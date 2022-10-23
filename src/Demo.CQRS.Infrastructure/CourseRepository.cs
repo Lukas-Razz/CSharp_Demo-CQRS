@@ -13,7 +13,7 @@ namespace Demo.CQRS.Infrastructure
             _contextFactory = contextFactory;
         }
 
-        public async Task<IEnumerable<Domain.Course>> GetAll()
+        public async Task<IEnumerable<Domain.Course>> GetAllAsync()
         {
             using var context = _contextFactory();
 

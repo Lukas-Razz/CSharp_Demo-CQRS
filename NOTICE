@@ -5,5 +5,13 @@
 
 [CQRS, Martin Fowler](https://www.martinfowler.com/bliki/CQRS.html)
 
+[CQRS Pattern Using MediatR In .NET 5, Alpesh Patel](https://medium.com/c-sharp-progarmming/cqrs-pattern-using-mediatr-in-net-5-45a43b783db6)
+
+[CQRS and Event Sourcing in Event Driven Architecture of Ordering Microservices, Mehmet Ozkaya](https://medium.com/aspnetrun/cqrs-and-event-sourcing-in-event-driven-architecture-of-ordering-microservices-fb67dc44da7a)
+
+[Mediator, Refactoring Guru](https://refactoring.guru/design-patterns/mediator)
+
+[Facade, Refactoring Guru](https://refactoring.guru/design-patterns/facade)
+
 ## Graphics
 Hexagon background by <a target="_blank" href="https://bgjar.com">BGJar</a>

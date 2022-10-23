@@ -2,7 +2,7 @@
 using Demo.CQRS.Domain;
 using MediatR;
 
-namespace Demo.CQRS.BL.Queries
+namespace Demo.CQRS.BL.Queries.GetCourses
 {
     // IRequestHandler is MediatR way of representing handler of a query message
     // This one can handle GetCoursesQuery and returns a collection of Courses
@@ -17,13 +17,13 @@ namespace Demo.CQRS.BL.Queries
         public async Task<IEnumerable<Course>> Handle(GetCoursesQuery request, CancellationToken cancellationToken)
         {
             var predicates = new List<Func<Course, bool>>();
-            request.AtLocation.MatchSome(location => predicates.Add((Course course) => location == course.Location));
-            request.Before.MatchSome(before => predicates.Add((Course course) => before > course.Start));
-            request.After.MatchSome(after => predicates.Add((Course course) => after < course.Start));
+            request.AtLocation.MatchSome(location => predicates.Add((course) => location == course.Location));
+            request.Before.MatchSome(before => predicates.Add((course) => before > course.Start));
+            request.After.MatchSome(after => predicates.Add((course) => after < course.Start));
 
             var combinedPredicate = predicates.AsEnumerable().Aggregate((acc, x) => CombinePredicates(acc, x));
 
-            var results = await _courseRepository.GetAll();
+            var results = await _courseRepository.GetAllAsync();
 
             return results.Where(combinedPredicate);
         }

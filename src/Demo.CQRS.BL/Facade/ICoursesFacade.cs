@@ -6,5 +6,7 @@ namespace Demo.CQRS.BL.Facade
     {
         Task<IEnumerable<Course>> GetOpenCoursesIn(string location);
         Task Enroll(Course course, Guid userId, string email);
+        Task CancelEnroll(Enrollment enrollment);
+        Task<IEnumerable<Enrollment>> GetPendingEnrollements(Guid userId);
     }
 }

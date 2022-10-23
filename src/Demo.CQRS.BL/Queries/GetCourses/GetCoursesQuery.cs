@@ -2,7 +2,7 @@
 using MediatR;
 using Optional;
 
-namespace Demo.CQRS.BL.Queries
+namespace Demo.CQRS.BL.Queries.GetCourses
 {
     // IRequest is MediatR way of representing query message
     // This one is a query that returns a collection of Courses
