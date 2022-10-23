@@ -7,7 +7,7 @@ namespace Demo.CQRS.BL.Behavior
     // It is basically a Decorator pattern
     // The request in MediatR gets intercepted and is processed if it fits the type.
     // After processing, the request is passed to further processing (another behavior or handler). See the "return next()" at the end.
-    internal class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;

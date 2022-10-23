@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Demo.CQRS.Domain;
+using MediatR;
 
 namespace Demo.CQRS.BL.Commands.EnrollToCourse
 {
@@ -6,7 +7,7 @@ namespace Demo.CQRS.BL.Commands.EnrollToCourse
     // This one is a command that returns nothing
     public class EnrollToCourseCommand : IRequest
     {
-        public Guid CourseId { get; set; }
+        public Course Course { get; set; }
         public Guid UserId { get; set; }
         public string ContactEmail { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿namespace Demo.CQRS.Domain
+﻿using Optional;
+
+namespace Demo.CQRS.Domain
 {
     public class Enrollment
     {
@@ -7,6 +9,6 @@
         public Guid UserId { get; set; }
         public string ContactEmail { get; set; }
         public DateTime EnrollmentTimestamp { get; set; }
-        public DateTime CanceledTimestamp { get; set; }
+        public Option<DateTime> CanceledTimestamp { get; set; }
     }
 }

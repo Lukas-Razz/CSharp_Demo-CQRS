@@ -10,9 +10,8 @@ namespace Demo.CQRS.BL.Queries
     {
         // Option is (one of) implementation of Maybe monad in C#
         // It is safe way of expressing null object, without actually using nulls
-        private Option<DateTime> Before { get; init; }
-
-        private Option<DateTime> After { get; init; }
-        private Option<string> AtLocation { get; init; }
+        public Option<DateTime> Before { get; init; }
+        public Option<DateTime> After { get; init; }
+        public Option<string> AtLocation { get; init; }
     }
 }

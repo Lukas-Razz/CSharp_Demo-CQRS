@@ -7,6 +7,6 @@
         public Guid UserId { get; set; }
         public string ContactEmail { get; set; }
         public DateTime EnrollmentTimestamp { get; set; }
-        public DateTime CanceledTimestamp { get; set; }
+        public DateTime? CanceledTimestamp { get; set; }
     }
 }

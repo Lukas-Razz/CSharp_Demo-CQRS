@@ -11,7 +11,7 @@ namespace Demo.CQRS.BL.Commands.EnrollToCourse
         // Notice the pattern of the message. See the FluentValidation documentation how it works.
         public EnrollToCourseCommandValidator()
         {
-            RuleFor(c => c.CourseId)
+            RuleFor(c => c.Course)
                 .NotEmpty()
                     .WithMessage("{PropertyName} needs to be specified.");
 
