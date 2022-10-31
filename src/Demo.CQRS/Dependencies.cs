@@ -55,11 +55,15 @@ namespace Demo.CQRS
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 
-            services.AddOptions<EmailServiceConfiguration>().Configure(options =>
-            {
-                options.ApiKey = "this-is-not-a-key";
-                options.Sender = "CourseDemo@example.test";
-            });
+            // Try an SMTP provider yourself.
+            // E.g., https://www.sendinblue.com/ works just fine
+            services.AddFluentEmail("CourseDemo@example.test")
+                .AddSmtpSender( // Change this setting to your liking
+                    "smtp-relay.sendinblue.com",
+                    587,
+                    "", // Login
+                    "" // Pass
+                    );
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddTransient<IValidator<EnrollToCourseCommand>, EnrollToCourseCommandValidator>();
@@ -67,7 +71,6 @@ namespace Demo.CQRS
             services.AddMediatR(typeof(CoursesFacade)); // Registers handlers in Assembly with CoursesFacade
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
 
             services.AddTransient<ICoursesFacade, CoursesFacade>();
 

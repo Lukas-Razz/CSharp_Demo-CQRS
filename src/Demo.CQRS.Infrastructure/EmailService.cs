@@ -1,40 +1,27 @@
 ﻿using Demo.CQRS.BL.Contracts;
-using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
+using FluentEmail.Core;
 
 namespace Demo.CQRS.Infrastructure
 {
-
-    public class EmailServiceConfiguration
-    {
-        public string ApiKey { get; set; }
-        public string Sender { get; set; }
-    }
-
     public class EmailService : IEmailService
     {
-        private EmailServiceConfiguration _configuration;
+        private IFluentEmail _fluentEmail;
 
-        public EmailService(IOptions<EmailServiceConfiguration> configuration)
+        public EmailService(IFluentEmail fluentEmail)
         {
-            _configuration = configuration.Value;
+            _fluentEmail = fluentEmail;
         }
 
-        public async Task SendEmailAsync(Email email)
+        public async Task SendEmailAsync(BL.Contracts.Email email)
         {
-            var client = new SendGridClient(_configuration.ApiKey);
+            var response = await _fluentEmail
+                .To(email.Receiver)
+                .Subject(email.Subject)
+                .Body(email.Body)
+                .SendAsync();
 
-            var sender = new EmailAddress(_configuration.Sender);
-            var receiver = new EmailAddress(email.Receiver);
-            var subject = email.Subject;
-            var emailBody = email.Body;
-
-            var sendGridMessage = MailHelper.CreateSingleEmail(sender, receiver, subject, emailBody, emailBody);
-            var response = await client.SendEmailAsync(sendGridMessage);
-
-            //if (!response.IsSuccessStatusCode)
-            //    throw new IOException($"Failed to send SendGrid email, response: {response.StatusCode}.");
+            if (!response.Successful)
+                throw new IOException($"Failed to send SendGrid email. {string.Join(Environment.NewLine, response.ErrorMessages)}");
         }
     }
 }
